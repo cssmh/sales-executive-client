@@ -1,22 +1,28 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineBars } from "react-icons/ai";
+import { FaPhoneAlt } from "react-icons/fa";
+import { MdLocationOn } from "react-icons/md";
+import logo from "../assets/logo.webp"
 
 const Navbar = () => {
-  const [isActive, setActive] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
 
-  // Close menu when clicking outside
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         menuRef.current &&
         !menuRef.current.contains(event.target) &&
         !buttonRef.current.contains(event.target) &&
-        isActive
+        isMenuOpen
       ) {
-        setActive(false);
+        setIsMenuOpen(false);
       }
     };
 
@@ -24,70 +30,91 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isActive]);
+  }, [isMenuOpen]);
 
   return (
-    <nav className="bg-blue-600 text-white p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="text-xl font-bold">
-          <Link to="/">Sales Executive App</Link>
+    <>
+      {/* Top Bar with Contact Info */}
+      <div className="bg-gray-200 text-gray-800 px-3 py-2">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center">
+              <FaPhoneAlt className="mr-1" />
+              <span>+123 456 789</span>
+            </div>
+            <div className="flex items-center">
+              <MdLocationOn className="mr-1" />
+              <span>123 Street, City, Country</span>
+            </div>
+          </div>
         </div>
+      </div>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-4">
-          <Link to="/" className="hover:bg-blue-700 p-2 rounded">
-            Home
-          </Link>
-          <Link to="/add-order" className="hover:bg-blue-700 p-2 rounded">
-            Add Sales Order
-          </Link>
-          <Link to="/admin" className="hover:bg-blue-700 p-2 rounded">
-            Admin Panel
-          </Link>
-        </div>
+      {/* Main Navbar */}
+      <nav className="bg-green-500 text-white px-3 py-1 relative">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="text-xl font-bold">
+            <Link to="/">
+              <img src={logo} className="w-[34px]" alt="Logo" />
+            </Link>
+          </div>
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
+          {/* Mobile Menu Button */}
           <button
             ref={buttonRef}
-            onClick={() => setActive(!isActive)}
-            className="p-4 focus:outline-none"
+            onClick={toggleMenu}
+            className="md:hidden p-2 focus:outline-none"
           >
             <AiOutlineBars className="h-6 w-6" />
           </button>
-        </div>
-      </div>
 
-      {/* Mobile Menu */}
-      <div
-        ref={menuRef}
-        className={`md:hidden bg-blue-600 absolute w-full left-0 top-full transform ${
-          isActive ? "translate-y-0" : "-translate-y-full"
-        } transition-transform duration-300 ease-in-out`}
-      >
-        <Link
-          to="/"
-          className="block text-center py-2 hover:bg-blue-700"
-          onClick={() => setActive(false)}
-        >
-          Home
-        </Link>
-        <Link
-          to="/add-order"
-          className="block text-center py-2 hover:bg-blue-700"
-          onClick={() => setActive(false)}
-        >
-          Add Sales Order
-        </Link>
-        <Link
-          to="/admin"
-          className="block text-center py-2 hover:bg-blue-700"
-          onClick={() => setActive(false)}
-        >
-          Admin Panel
-        </Link>
-      </div>
-    </nav>
+          {/* Desktop Menu */}
+          <div className="hidden md:flex space-x-4">
+            <Link to="/" className="block py-2">
+              Home
+            </Link>
+            <Link to="/add-order" className="block py-2">
+              Add Sales Order
+            </Link>
+            <Link to="/admin" className="block py-2">
+              Admin Panel
+            </Link>
+          </div>
+
+          {/* Mobile Menu */}
+          <div
+            ref={menuRef}
+            className={`fixed top-0 left-0 h-full w-2/4 bg-gray-500 z-50 transform ${
+              isMenuOpen ? "translate-x-0" : "-translate-x-full"
+            } transition-transform duration-300 ease-in-out md:hidden`}
+          >
+            <div className="flex flex-col space-y-2 p-4">
+              <Link
+                to="/"
+                className="block py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link
+                to="/add-order"
+                className="block py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Add Sales Order
+              </Link>
+              <Link
+                to="/admin"
+                className="block py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Admin Panel
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </>
   );
 };
 

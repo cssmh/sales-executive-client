@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 // import axios from "axios";
 
 const Admin = () => {
@@ -20,7 +20,7 @@ const Admin = () => {
       <h2>Admin Panel</h2>
       <h3>All Sales Orders</h3>
       <ul>
-        {orders?.map((order, index) => (
+        {/* {orders?.map((order, index) => (
           <li key={index}>
             Order {index + 1}: Total Amount = {order.totalAmount}
             <ul>
@@ -32,7 +32,7 @@ const Admin = () => {
               ))}
             </ul>
           </li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );
