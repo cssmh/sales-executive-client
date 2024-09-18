@@ -88,7 +88,7 @@ const Register = () => {
             state={location.state}
             to={"/login"}
             rel="noopener noreferrer"
-            className="underline dark:text-redFood"
+            className="underline text-green-600"
           >
             Login
           </Link>

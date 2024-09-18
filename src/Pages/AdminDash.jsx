@@ -1,7 +1,7 @@
 import swal from "sweetalert";
 import { useQuery } from "@tanstack/react-query";
 import { FaTrash } from "react-icons/fa";
-import { deleteOrder, getOrder } from "../Api/Order";
+import { deleteOrder, getAllOrders } from "../Api/Order";
 import SmallLoader from "../Components/SmallLoader";
 
 const AdminDash = () => {
@@ -11,7 +11,7 @@ const AdminDash = () => {
     refetch,
   } = useQuery({
     queryKey: ["allOrders"],
-    queryFn: async () => await getOrder(),
+    queryFn: async () => await getAllOrders(),
   });
 
   const handleDelete = async (id) => {

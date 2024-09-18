@@ -3,9 +3,11 @@ import { FcGoogle } from "react-icons/fc";
 import useAuth from "../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const { login, googleLogin } = useAuth();
+  const [pass, setPass] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -56,18 +58,24 @@ const Login = () => {
               placeholder="Enter your email"
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Password
             </label>
             <input
-              type="password"
+              type={pass ? "password" : "text"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
               placeholder="Enter your password"
             />
+            <span
+              className="absolute top-[40px] right-3 text-gray-500 cursor-pointer"
+              onClick={() => setPass(!pass)}
+            >
+              {pass ? <FaRegEyeSlash /> : <FaRegEye />}
+            </span>
           </div>
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
           <button
@@ -90,7 +98,7 @@ const Login = () => {
             state={location.state}
             to={"/register"}
             rel="noopener noreferrer"
-            className="underline dark:text-redFood"
+            className="underline text-green-600"
           >
             Register
           </Link>

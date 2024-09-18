@@ -10,6 +10,7 @@ import useAuth from "../hooks/useAuth";
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const admin = user?.email === import.meta.env.VITE_admin;
   const menuRef = useRef(null);
 
   const handleLogOut = () => {
@@ -33,14 +34,14 @@ const Navbar = () => {
     <div>
       <div className="bg-gray-200 text-gray-800 px-3 py-2">
         <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
             <div className="flex items-center">
               <FaPhoneAlt className="mr-1" />
-              <span>+123 456 789</span>
+              <span>+8801525</span>
             </div>
             <div className="flex items-center">
               <MdLocationOn className="mr-1" />
-              <span>123 Street, City, Country</span>
+              <span>House- 0, Road- 2, Boundary road, Mirpur 10</span>
             </div>
           </div>
         </div>
@@ -57,9 +58,14 @@ const Navbar = () => {
             <Link to="/add-order" className="block py-2">
               Add Sales Order
             </Link>
-            <Link to="/admin-dashboard" className="block py-2">
-              Admin Panel
+            <Link to="/my-orders" className="block py-2">
+              My Orders
             </Link>
+            {admin && (
+              <Link to="/admin-dashboard" className="block py-2">
+                Admin Panel
+              </Link>
+            )}
             <img
               src={user?.photoURL || defaultAva}
               alt="user"
@@ -118,13 +124,24 @@ const Navbar = () => {
             >
               Add Sales Order
             </Link>
-            <Link
-              to="/admin-dashboard"
-              className="block"
-              onClick={() => setMenuOpen(false)}
-            >
-              Admin Panel
-            </Link>
+            {user?.email && (
+              <Link
+                to="/my-orders"
+                className="block"
+                onClick={() => setMenuOpen(false)}
+              >
+                My Orders
+              </Link>
+            )}
+            {admin && (
+              <Link
+                to="/admin-dashboard"
+                className="block"
+                onClick={() => setMenuOpen(false)}
+              >
+                Admin Panel
+              </Link>
+            )}
           </div>
         </div>
       </nav>

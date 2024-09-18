@@ -5,8 +5,13 @@ export const postOrder = async (orderData) => {
   return data;
 };
 
-export const getOrder = async () => {
+export const getAllOrders = async () => {
   const { data } = await axiosSecure("/all-order");
+  return data;
+};
+
+export const getMyOrders = async (email) => {
+  const { data } = await axiosSecure(`/my-orders?email=${email}`);
   return data;
 };
 

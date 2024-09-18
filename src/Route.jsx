@@ -6,6 +6,8 @@ import AdminDash from "./Pages/AdminDash";
 import PrivateRoute from "./Shared/PrivateRoute";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
+import AdminRoute from "./Shared/AdminRoute";
+import MyOrders from "./Pages/MyOrders";
 
 const Route = createBrowserRouter([
   {
@@ -23,11 +25,19 @@ const Route = createBrowserRouter([
         ),
       },
       {
-        path: "/admin-dashboard",
+        path: "/my-orders",
         element: (
           <PrivateRoute>
-            <AdminDash />
+            <MyOrders />
           </PrivateRoute>
+        ),
+      },
+      {
+        path: "/admin-dashboard",
+        element: (
+          <AdminRoute>
+            <AdminDash />
+          </AdminRoute>
         ),
       },
       { path: "/login", element: <Login /> },
