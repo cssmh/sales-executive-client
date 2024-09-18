@@ -3,6 +3,8 @@ import MainLayout from "./MainLayout";
 import Home from "./Components/Home";
 import AddOrder from "./Components/AddOrder";
 import Admin from "./Components/Admin";
+import PrivateRoute from "./Components/PrivateRoute";
+import Login from "./Components/Login";
 
 const Route = createBrowserRouter([
   {
@@ -10,8 +12,24 @@ const Route = createBrowserRouter([
     element: <MainLayout />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/add-order", element: <AddOrder /> },
-      { path: "/admin", element: <Admin /> },
+      { path: "/", element: <Home /> },
+      {
+        path: "/add-order",
+        element: (
+          <PrivateRoute>
+            <AddOrder />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/admin",
+        element: (
+          <PrivateRoute>
+            <Admin />
+          </PrivateRoute>
+        ),
+      },
+      { path: "/login", element: <Login /> },
     ],
   },
 ]);
