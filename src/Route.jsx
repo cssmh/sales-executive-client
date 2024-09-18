@@ -1,10 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "./MainLayout";
 import Home from "./Components/Home";
-import AddOrder from "./Components/AddOrder";
-import Admin from "./Components/Admin";
-import PrivateRoute from "./Components/PrivateRoute";
+import AddOrder from "./Pages/AddOrder";
+import AdminDash from "./Pages/AdminDash";
+import PrivateRoute from "./Shared/PrivateRoute";
 import Login from "./Components/Login";
+import Register from "./Components/Register";
 
 const Route = createBrowserRouter([
   {
@@ -22,14 +23,15 @@ const Route = createBrowserRouter([
         ),
       },
       {
-        path: "/admin",
+        path: "/admin-dashboard",
         element: (
           <PrivateRoute>
-            <Admin />
+            <AdminDash />
           </PrivateRoute>
         ),
       },
       { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
     ],
   },
 ]);

@@ -1,7 +1,6 @@
+import toast from "react-hot-toast";
 import { useState, useRef } from "react";
 import SignatureCanvas from "react-signature-canvas";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import useAuth from "../hooks/useAuth";
 import { postOrder } from "../Api/Order";
 
@@ -70,7 +69,6 @@ const AddOrder = () => {
   const deleteProduct = (index) => {
     setProducts((prev) => {
       const newProducts = prev.filter((_, i) => i !== index);
-      // Recalculate total amount after deleting a product
       const newTotalAmount = newProducts.reduce((acc, product) => {
         return acc + parseFloat(product.price) * parseInt(product.quantity);
       }, 0);
@@ -102,7 +100,6 @@ const AddOrder = () => {
     try {
       await postOrder(order);
       toast.success("Order submitted successfully!");
-      // Clear all fields after successful submission
       setProducts([]);
       setTotalAmount(0);
       setCurrentProduct({ name: "", quantity: "", price: "" });
@@ -145,7 +142,7 @@ const AddOrder = () => {
         />
         <button
           onClick={addProduct}
-          className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+          className="w-full py-2 px-4 bg-blue-500 text-white rounded-md"
         >
           Add Product
         </button>

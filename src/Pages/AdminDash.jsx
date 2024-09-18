@@ -1,10 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import { deleteOrder, getOrder } from "../Api/Order";
-import SmallLoader from "./SmallLoader";
-import { FaTrash } from "react-icons/fa";
 import swal from "sweetalert";
+import { useQuery } from "@tanstack/react-query";
+import { FaTrash } from "react-icons/fa";
+import { deleteOrder, getOrder } from "../Api/Order";
+import SmallLoader from "../Components/SmallLoader";
 
-const Admin = () => {
+const AdminDash = () => {
   const {
     data = [],
     isLoading,
@@ -108,4 +108,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default AdminDash;

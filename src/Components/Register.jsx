@@ -1,49 +1,39 @@
 import { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
 import useAuth from "../hooks/useAuth";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-
-const Login = () => {
-  const { login, googleLogin } = useAuth();
+const Register = () => {
+  const { createUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
-  const location = useLocation()
-  const navigateTo = useNavigate();
 
-  const handleGoogleSignIn = async () => {
-    try {
-      await googleLogin();
-      navigateTo(location?.state || "/", { replace: true });
-      toast.success("login successful");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleEmailLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
     try {
       setError(null);
-      await login(email, password);
-      toast.success("login successful");
-      navigateTo(location?.state || "/", { replace: true });
+      await createUser(email, password);
+      toast.success("Register successful");
     } catch (error) {
-      console.log(error);
-      setError("Failed to login");
+      console.error("Error creating account: ", error);
+      setError("Failed to create an account. Please try again.");
     }
   };
 
   return (
     <div className="flex items-center justify-center h-[80vh] bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Login</h1>
-          <p className="text-gray-600 mt-2">Sign in to continue</p>
+        <div className="text-center mb-2">
+          <h1 className="text-2xl font-bold text-gray-800">Register</h1>
+          <p className="text-gray-600 mt-2">Create your account</p>
         </div>
-        <form onSubmit={handleEmailLogin} className="mb-4">
-          <div className="mb-4">
+        <form onSubmit={handleRegister}>
+          <div className="mb-3">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Email
             </label>
@@ -56,7 +46,7 @@ const Login = () => {
               placeholder="Enter your email"
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-3">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Password
             </label>
@@ -69,30 +59,38 @@ const Login = () => {
               placeholder="Enter your password"
             />
           </div>
-          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+          <div className="mb-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+              placeholder="Confirm your password"
+            />
+          </div>
+          <div className="h-3 mb-3">
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+          </div>
           <button
             type="submit"
-            className="w-full bg-green-500 text-white py-2 px-4 rounded-lg shadow-md transition duration-300"
+            className="w-full bg-green-500 text-white py-2 px-4 rounded-lg shadow-md last:transition duration-300"
           >
-            Login
+            Register
           </button>
         </form>
-        <button
-          onClick={handleGoogleSignIn}
-          className="w-full bg-gray-100 text-gray-800 flex items-center justify-center py-2 px-4 rounded-lg shadow-md hover:bg-gray-200 transition duration-300"
-        >
-          <FcGoogle className="text-2xl mr-2" />
-          Sign in with Google
-        </button>
         <p className="text-sm mt-3 text-center dark:text-gray-600">
-          Do not have an account?{" "}
+          Already have account{" "}
           <Link
             state={location.state}
-            to={"/register"}
+            to={"/login"}
             rel="noopener noreferrer"
             className="underline dark:text-redFood"
           >
-            Register
+            Login
           </Link>
         </p>
       </div>
@@ -100,4 +98,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
