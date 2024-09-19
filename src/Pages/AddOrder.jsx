@@ -83,6 +83,15 @@ const AddOrder = () => {
     setSignature(null);
   };
 
+  const clearAllFields = () => {
+    setProducts([]);
+    setTotalAmount(0);
+    setCurrentProduct({ name: "", quantity: "", price: "" });
+    setSalesExecutive({ name: "", number: "" });
+    setShopDetails({ address: "", ownerName: "", phoneNumber: "" });
+    clearSignature();
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -123,12 +132,6 @@ const AddOrder = () => {
       swal("Good job!", "Order submitted successfully!", "success", {
         timer: 2000,
       });
-      setProducts([]);
-      setTotalAmount(0);
-      setCurrentProduct({ name: "", quantity: "", price: "" });
-      setSalesExecutive({ name: "", number: "" });
-      setShopDetails({ address: "", ownerName: "", phoneNumber: "" });
-      clearSignature();
     } catch (error) {
       console.log(error);
       toast.error("Failed to submit order!");
@@ -265,13 +268,22 @@ const AddOrder = () => {
             >
               Clear Signature
             </button>
-            <button
-              type="button"
-              onClick={() => window.print()}
-              className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
-            >
-              Print
-            </button>
+            <div className="space-x-2">
+              <button
+                type="button"
+                onClick={clearAllFields}
+                className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
+              >
+                Clear data
+              </button>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+              >
+                Print
+              </button>
+            </div>
           </div>
         </div>
         <button

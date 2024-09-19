@@ -1,5 +1,5 @@
 import useAuth from "../hooks/useAuth";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.webp";
 import { useState, useRef, useEffect } from "react";
 import defaultAva from "../assets/default.jpg";
@@ -53,19 +53,39 @@ const Navbar = () => {
         </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:flex space-x-4 items-center">
-            <Link to="/" className="block py-2">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? "text-yellow-300 block py-2" : "block py-2"
+              }
+            >
               Home
-            </Link>
-            <Link to="/add-order" className="block py-2">
+            </NavLink>
+            <NavLink
+              to="/add-order"
+              className={({ isActive }) =>
+                isActive ? "text-yellow-300 block py-2" : "block py-2"
+              }
+            >
               Add Sales Order
-            </Link>
-            <Link to="/my-orders" className="block py-2">
+            </NavLink>
+            <NavLink
+              to="/my-orders"
+              className={({ isActive }) =>
+                isActive ? "text-yellow-300 block py-2" : "block py-2"
+              }
+            >
               My Orders
-            </Link>
+            </NavLink>
             {admin && (
-              <Link to="/admin-dashboard" className="block py-2">
+              <NavLink
+                to="/admin-dashboard"
+                className={({ isActive }) =>
+                  isActive ? "text-yellow-300 block py-2" : "block py-2"
+                }
+              >
                 Admin Panel
-              </Link>
+              </NavLink>
             )}
             <img
               src={user?.photoURL || defaultAva}
@@ -75,7 +95,7 @@ const Navbar = () => {
             {user?.email ? (
               <button
                 onClick={handleLogOut}
-                className="border rounded-md text-white py-[3px] px-[10px]"
+                className="border rounded-md text-white py-[3px] px-2"
               >
                 <span className="flex items-center gap-1">
                   <FaArrowRightToBracket />
@@ -83,11 +103,16 @@ const Navbar = () => {
                 </span>
               </button>
             ) : (
-              <Link to="/login">
-                <p className="border rounded-md text-white py-[3px] px-[10px]">
-                  Login
-                </p>
-              </Link>
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  `border py-[3px] px-[10px] rounded-md ${
+                    isActive ? "text-yellow-300" : ""
+                  }`
+                }
+              >
+                Login
+              </NavLink>
             )}
           </div>
           <div className="flex items-center gap-2">
@@ -117,34 +142,46 @@ const Navbar = () => {
               <MdClose className="h-6 w-6" />
             </button>
           </div>
-          <div className="flex flex-col mt-4 space-y-4">
-            <Link to="/" className="block" onClick={() => setMenuOpen(false)}>
+          <div className="flex flex-col mt-4 space-y-3">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? "text-yellow-300 block" : "block"
+              }
+              onClick={() => setMenuOpen(false)}
+            >
               Home
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to="/add-order"
-              className="block"
+              className={({ isActive }) =>
+                isActive ? "text-yellow-300 block" : "block"
+              }
               onClick={() => setMenuOpen(false)}
             >
               Add Sales Order
-            </Link>
+            </NavLink>
             {user?.email && (
-              <Link
+              <NavLink
                 to="/my-orders"
-                className="block"
+                className={({ isActive }) =>
+                  isActive ? "text-yellow-300 block" : "block"
+                }
                 onClick={() => setMenuOpen(false)}
               >
                 My Orders
-              </Link>
+              </NavLink>
             )}
             {admin && (
-              <Link
+              <NavLink
                 to="/admin-dashboard"
-                className="block"
+                className={({ isActive }) =>
+                  isActive ? "text-yellow-300 block" : "block"
+                }
                 onClick={() => setMenuOpen(false)}
               >
                 Admin Panel
-              </Link>
+              </NavLink>
             )}
             {user?.email ? (
               <button onClick={handleLogOut} className="">
@@ -154,7 +191,14 @@ const Navbar = () => {
                 </span>
               </button>
             ) : (
-              <Link to="/login">Login</Link>
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  isActive ? "text-yellow-300 block" : "block"
+                }
+              >
+                Login
+              </NavLink>
             )}
           </div>
         </div>

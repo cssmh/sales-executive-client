@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { FaTrash } from "react-icons/fa";
 import { deleteOrder, getAllOrders } from "../Api/Order";
 import SmallLoader from "../Components/SmallLoader";
+import { Link } from "react-router-dom";
 
 const AdminDash = () => {
   const {
@@ -61,7 +62,9 @@ const AdminDash = () => {
               {data.map((order, index) => (
                 <tr key={index}>
                   <td className="border p-1 sm:px-3">
-                    {order._id.slice(0, 16)}..
+                    <Link to={`/order/${order._id}`}>
+                      {order._id.slice(0, 16)}..
+                    </Link>
                   </td>
                   <td className="border p-2 sm:px-3">
                     <ul className="list-disc pl-5">

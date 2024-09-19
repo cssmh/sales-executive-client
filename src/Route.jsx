@@ -8,6 +8,8 @@ import Login from "./Components/Login";
 import Register from "./Components/Register";
 import AdminRoute from "./Shared/AdminRoute";
 import MyOrders from "./Pages/MyOrders";
+import OrderDetails from "./Pages/OrderDetails";
+import { getOrder } from "./Api/Order";
 
 const Route = createBrowserRouter([
   {
@@ -39,6 +41,15 @@ const Route = createBrowserRouter([
             <AdminDash />
           </AdminRoute>
         ),
+      },
+      {
+        path: "/order/:id",
+        element: (
+          <AdminRoute>
+            <OrderDetails />
+          </AdminRoute>
+        ),
+        loader: async ({ params }) => await getOrder(params.id),
       },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
