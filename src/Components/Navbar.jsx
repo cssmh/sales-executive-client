@@ -48,7 +48,7 @@ const Navbar = () => {
       </div>
       <nav className="bg-green-500 text-white px-3 py-[6px] relative flex justify-between items-center z-10">
         <div className="text-xl md:text-2xl font-semibold ml-4 text-yellow-400 font-port">
-          <img src={logo} className="w-[34px] mx-auto" alt="" />
+          <img src={logo} className="w-[36px] mx-auto" alt="" />
         </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:flex space-x-4 items-center">

@@ -34,7 +34,7 @@ const AddOrder = () => {
     }));
   };
 
-  const handleSalesExecutiveChange = (e) => {
+  const handleSalesExeChange = (e) => {
     const { name, value } = e.target;
     setSalesExecutive((prev) => ({
       ...prev,
@@ -85,7 +85,7 @@ const AddOrder = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const form = e.target;
+    const form = e.target;
     if (products.length === 0) {
       return toast.error("Please add at least one product!");
     }
@@ -104,10 +104,10 @@ const AddOrder = () => {
       return toast.error("Please provide a signature!");
     }
 
-    // if (!form.checkValidity()) {
-    //   form.reportValidity();
-    //   return;
-    // }
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
 
     try {
       const order = {
@@ -131,7 +131,7 @@ const AddOrder = () => {
       clearSignature();
     } catch (error) {
       console.log(error);
-      toast.error("Failed to submit order. Please try again.");
+      toast.error("Failed to submit order!");
     }
   };
 
@@ -205,7 +205,7 @@ const AddOrder = () => {
             name="name"
             required
             value={salesExecutive.name}
-            onChange={handleSalesExecutiveChange}
+            onChange={handleSalesExeChange}
             placeholder="Sales Executive Name"
             className="w-full p-2 border border-gray-300 rounded-md mb-2"
           />
@@ -214,7 +214,7 @@ const AddOrder = () => {
             name="number"
             required
             value={salesExecutive.number}
-            onChange={handleSalesExecutiveChange}
+            onChange={handleSalesExeChange}
             placeholder="Sales Executive Number"
             className="w-full p-2 border border-gray-300 rounded-md mb-4"
           />
