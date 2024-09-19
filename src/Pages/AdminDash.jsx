@@ -48,20 +48,22 @@ const AdminDash = () => {
           <table className="w-full border-collapse">
             <thead>
               <tr>
-                <th className="border p-1">Order ID</th>
-                <th className="border p-2">Products</th>
-                <th className="border p-2">Total Amount</th>
-                <th className="border p-2">Sales Executive</th>
-                <th className="border p-2">Shop Details</th>
-                <th className="border p-2">Signature</th>
-                <th className="border p-1">Actions</th>
+                <th className="border p-1 sm:px-3 md:px-4">Order ID</th>
+                <th className="border p-2 sm:px-3 md:px-4">Products</th>
+                <th className="border p-2 sm:px-3 md:px-4">Total Amount</th>
+                <th className="border p-2 sm:px-3 md:px-4">Sales Executive</th>
+                <th className="border p-2 sm:px-3 md:px-4">Shop Details</th>
+                <th className="border p-2 sm:px-3 md:px-4">Signature</th>
+                <th className="border p-1 sm:px-3 md:px-4">Actions</th>
               </tr>
             </thead>
             <tbody>
               {data.map((order, index) => (
                 <tr key={index}>
-                  <td className="border p-1">{order._id.slice(0, 17)}..</td>
-                  <td className="border p-2">
+                  <td className="border p-1 sm:px-3">
+                    {order._id.slice(0, 16)}..
+                  </td>
+                  <td className="border p-2 sm:px-3">
                     <ul className="list-disc pl-5">
                       {order.products.map((product, i) => (
                         <li key={i}>
@@ -71,16 +73,18 @@ const AdminDash = () => {
                       ))}
                     </ul>
                   </td>
-                  <td className="border p-2">{order.totalAmount} Taka</td>
-                  <td className="border p-2">
+                  <td className="border p-2 sm:px-3">
+                    {order.totalAmount} Taka
+                  </td>
+                  <td className="border p-2 sm:px-3">
                     {order.salesExecutive.name} ({order.salesExecutive.number})
                   </td>
-                  <td className="border p-2">
+                  <td className="border p-2 sm:px-3">
                     Name: {order.shopDetails.ownerName} <br />
                     Address: {order.shopDetails.address} <br />
                     Phone: {order.shopDetails.phoneNumber}
                   </td>
-                  <td className="border p-2">
+                  <td className="border p-2 sm:px-3">
                     {order.signature && (
                       <img
                         src={order.signature}
@@ -89,7 +93,7 @@ const AdminDash = () => {
                       />
                     )}
                   </td>
-                  <td className="border p-1 text-center">
+                  <td className="border p-1 sm:px-3 text-center">
                     <button
                       onClick={() => handleDelete(order._id)}
                       className="text-red-500 hover:text-red-700 transition-colors"

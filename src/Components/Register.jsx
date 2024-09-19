@@ -73,7 +73,9 @@ const Register = () => {
             />
           </div>
           <div className="h-3 mb-3">
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+            {error && (
+              <p className="text-red-500 text-sm font-semibold">{error}</p>
+            )}
           </div>
           <button
             type="submit"

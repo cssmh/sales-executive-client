@@ -257,17 +257,26 @@ const AddOrder = () => {
             canvasProps={{ className: "border border-gray-300 w-full h-40" }}
             onEnd={() => setSignature(signatureRef.current.toDataURL())}
           />
-          <button
-            type="button"
-            onClick={clearSignature}
-            className="mt-2 py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
-          >
-            Clear Signature
-          </button>
+          <div className="flex justify-between mt-2">
+            <button
+              type="button"
+              onClick={clearSignature}
+              className="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+            >
+              Clear Signature
+            </button>
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+            >
+              Print
+            </button>
+          </div>
         </div>
         <button
           type="submit"
-          className="w-full py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
+          className="w-full py-2 px-4 bg-green-500 text-white rounded-md"
         >
           Submit Order
         </button>

@@ -4,6 +4,7 @@ import useAuth from "../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const Login = () => {
   const { login, googleLogin } = useAuth();
@@ -11,7 +12,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const location = useLocation()
+  const [loading, setLoading] = useState(false);
+  const location = useLocation();
   const navigateTo = useNavigate();
 
   const handleGoogleSignIn = async () => {
@@ -26,6 +28,7 @@ const Login = () => {
 
   const handleEmailLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       setError(null);
       await login(email, password);
@@ -34,6 +37,8 @@ const Login = () => {
     } catch (error) {
       console.log(error);
       setError("Failed to login");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -58,7 +63,7 @@ const Login = () => {
               placeholder="Enter your email"
             />
           </div>
-          <div className="mb-4 relative">
+          <div className="mb-2 relative">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Password
             </label>
@@ -77,12 +82,18 @@ const Login = () => {
               {pass ? <FaRegEyeSlash /> : <FaRegEye />}
             </span>
           </div>
-          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+          <div className="h-3 mb-3">
+            {error && <p className="text-red-600 text-sm font-semibold">{error}</p>}
+          </div>
           <button
             type="submit"
-            className="w-full bg-green-500 text-white py-2 px-4 rounded-lg shadow-md transition duration-300"
+            className="w-full bg-green-500 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 flex items-center justify-center"
           >
-            Login
+            {loading ? (
+              <TbFidgetSpinner className="animate-spin text-xl my-[2px]" />
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
         <button

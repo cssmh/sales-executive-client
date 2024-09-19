@@ -1,11 +1,12 @@
-import { useState, useRef, useEffect } from "react";
+import useAuth from "../hooks/useAuth";
 import { Link } from "react-router-dom";
-import { AiOutlineBars } from "react-icons/ai";
-import { MdClose, MdLocationOn } from "react-icons/md";
 import logo from "../assets/logo.webp";
+import { useState, useRef, useEffect } from "react";
 import defaultAva from "../assets/default.jpg";
 import { FaPhoneAlt } from "react-icons/fa";
-import useAuth from "../hooks/useAuth";
+import { AiOutlineBars } from "react-icons/ai";
+import { MdClose, MdLocationOn } from "react-icons/md";
+import { FaArrowRightToBracket } from "react-icons/fa6";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -76,7 +77,10 @@ const Navbar = () => {
                 onClick={handleLogOut}
                 className="border rounded-md text-white py-[3px] px-[10px]"
               >
-                Logout
+                <span className="flex items-center gap-1">
+                  <FaArrowRightToBracket />
+                  Logout
+                </span>
               </button>
             ) : (
               <Link to="/login">
@@ -141,6 +145,16 @@ const Navbar = () => {
               >
                 Admin Panel
               </Link>
+            )}
+            {user?.email ? (
+              <button onClick={handleLogOut} className="">
+                <span className="flex items-center gap-1">
+                  <FaArrowRightToBracket />
+                  Logout
+                </span>
+              </button>
+            ) : (
+              <Link to="/login">Login</Link>
             )}
           </div>
         </div>
