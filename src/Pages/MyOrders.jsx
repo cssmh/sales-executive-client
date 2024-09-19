@@ -14,7 +14,7 @@ const MyOrders = () => {
   if (isLoading || loading) return <SmallLoader size={78} />;
 
   return (
-    <div className="max-w-[1200px] mx-auto mt-8">
+    <div className="max-w-[1200px] mx-auto mt-4 p-4">
       {orders.length === 0 ? (
         <div className="flex justify-center items-center text-red-600 h-[70vh]">
           No orders found!
@@ -24,7 +24,7 @@ const MyOrders = () => {
           {orders.map((order) => (
             <div
               key={order._id}
-              className="bg-gray-50 shadow-md rounded-lg p-4 w-full max-w-md"
+              className="shadow-xl rounded-lg p-4 w-full"
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold text-gray-800">

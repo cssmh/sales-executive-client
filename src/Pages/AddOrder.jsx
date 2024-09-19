@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import swal from "sweetalert";
 import { useState, useRef } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import useAuth from "../hooks/useAuth";
@@ -82,24 +83,46 @@ const AddOrder = () => {
     setSignature(null);
   };
 
-  const submitOrder = async () => {
-    if (!signature) {
-      toast.error("Please provide a signature!");
-      return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // const form = e.target;
+    if (products.length === 0) {
+      return toast.error("Please add at least one product!");
     }
 
-    const order = {
-      seller: user?.email,
-      products,
-      totalAmount,
-      salesExecutive,
-      shopDetails,
-      signature: signatureRef.current.toDataURL(),
-    };
+    // if (!/^(\+?8801|01)(\d{9})$/.test(salesExecutive.number)) {
+    //   toast.error("Enter a valid Sales Executive phone number!");
+    //   return;
+    // }
+
+    // if (!/^(\+?8801|01)(\d{9})$/.test(shopDetails.phoneNumber)) {
+    //   toast.error("Enter a valid Shop phone number!");
+    //   return;
+    // }
+
+    if (!signature) {
+      return toast.error("Please provide a signature!");
+    }
+
+    // if (!form.checkValidity()) {
+    //   form.reportValidity();
+    //   return;
+    // }
 
     try {
+      const order = {
+        seller: user?.email,
+        products,
+        totalAmount,
+        salesExecutive,
+        shopDetails,
+        signature: signatureRef.current.toDataURL(),
+      };
+
       await postOrder(order);
-      toast.success("Order submitted successfully!");
+      swal("Good job!", "Order submitted successfully!", "success", {
+        timer: 2000,
+      });
       setProducts([]);
       setTotalAmount(0);
       setCurrentProduct({ name: "", quantity: "", price: "" });
@@ -115,128 +138,140 @@ const AddOrder = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Add Sales Order</h2>
-      <div className="mb-4">
-        <input
-          type="text"
-          name="name"
-          value={currentProduct.name}
-          onChange={handleInputChange}
-          placeholder="Product Name"
-          className="w-full p-2 border border-gray-300 rounded-md mb-2"
-        />
-        <input
-          type="number"
-          name="quantity"
-          value={currentProduct.quantity}
-          onChange={handleInputChange}
-          placeholder="Quantity"
-          className="w-full p-2 border border-gray-300 rounded-md mb-2"
-        />
-        <input
-          type="number"
-          name="price"
-          value={currentProduct.price}
-          onChange={handleInputChange}
-          placeholder="Price"
-          className="w-full p-2 border border-gray-300 rounded-md mb-4"
-        />
-        <button
-          onClick={addProduct}
-          className="w-full py-2 px-4 bg-blue-500 text-white rounded-md"
-        >
-          Add Product
-        </button>
-      </div>
-      <div className="mb-4">
-        <h3 className="text-xl font-semibold mb-2">Products Added:</h3>
-        <ul className="list-disc pl-5 space-y-2">
-          {products.map((product, index) => (
-            <li
-              key={index}
-              className="flex justify-between bg-gray-100 p-2 rounded-md"
-            >
-              <span>{product.name}</span>
-              <span>
-                {product.quantity} x {product.price} =
-                {product.quantity * product.price} taka
-              </span>
-              <button
-                onClick={() => deleteProduct(index)}
-                className="text-red-500 hover:underline"
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <input
+            type="text"
+            name="name"
+            value={currentProduct.name}
+            onChange={handleInputChange}
+            placeholder="Product Name"
+            className="w-full p-2 border border-gray-300 rounded-md mb-2"
+          />
+          <input
+            type="number"
+            name="quantity"
+            value={currentProduct.quantity}
+            onChange={handleInputChange}
+            placeholder="Quantity"
+            className="w-full p-2 border border-gray-300 rounded-md mb-2"
+          />
+          <input
+            type="number"
+            name="price"
+            value={currentProduct.price}
+            onChange={handleInputChange}
+            placeholder="Price"
+            className="w-full p-2 border border-gray-300 rounded-md mb-4"
+          />
+          <button
+            type="button"
+            onClick={addProduct}
+            className="w-full py-2 px-4 bg-blue-500 text-white rounded-md"
+          >
+            Add Product
+          </button>
+        </div>
+        <div className="mb-4">
+          <h3 className="text-xl font-semibold mb-2">Products Added:</h3>
+          <ul className="list-disc space-y-2">
+            {products.map((product, index) => (
+              <li
+                key={index}
+                className="flex justify-between bg-gray-100 p-2 rounded-md"
               >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <h3 className="text-xl font-semibold mb-4">Total: {totalAmount} Taka</h3>
-      <div className="mb-2">
-        <input
-          type="text"
-          name="name"
-          value={salesExecutive.name}
-          onChange={handleSalesExecutiveChange}
-          placeholder="Sales Executive Name"
-          className="w-full p-2 border border-gray-300 rounded-md mb-2"
-        />
-        <input
-          type="text"
-          name="number"
-          value={salesExecutive.number}
-          onChange={handleSalesExecutiveChange}
-          placeholder="Sales Executive Number"
-          className="w-full p-2 border border-gray-300 rounded-md mb-4"
-        />
-      </div>
-      <h3 className="text-xl font-semibold mb-2">Shop Information</h3>
-      <div className="mb-4">
-        <input
-          type="text"
-          name="address"
-          value={shopDetails.address}
-          onChange={handleShopDetailsChange}
-          placeholder="Shop Address"
-          className="w-full p-2 border border-gray-300 rounded-md mb-2"
-        />
-        <input
-          type="text"
-          name="ownerName"
-          value={shopDetails.ownerName}
-          onChange={handleShopDetailsChange}
-          placeholder="Shop Owner Name"
-          className="w-full p-2 border border-gray-300 rounded-md mb-2"
-        />
-        <input
-          type="text"
-          name="phoneNumber"
-          value={shopDetails.phoneNumber}
-          onChange={handleShopDetailsChange}
-          placeholder="Shop Phone Number"
-          className="w-full p-2 border border-gray-300 rounded-md mb-4"
-        />
-      </div>
-      <div className="mb-4">
-        <h3 className="text-xl font-semibold mb-2">Signature:</h3>
-        <SignatureCanvas
-          ref={signatureRef}
-          penColor="black"
-          canvasProps={{ className: "border border-gray-300 w-full h-40" }}
-          onEnd={() => setSignature(signatureRef.current.toDataURL())}
-        />
+                <span>{product.name}</span>
+                <span>
+                  {product.quantity} x {product.price} =
+                  {product.quantity * product.price} taka
+                </span>
+                <button
+                  type="button"
+                  onClick={() => deleteProduct(index)}
+                  className="text-red-500 hover:underline"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <h3 className="text-xl font-semibold mb-4">
+          Total: {totalAmount} Taka
+        </h3>
+        <div className="mb-2">
+          <input
+            type="text"
+            name="name"
+            required
+            value={salesExecutive.name}
+            onChange={handleSalesExecutiveChange}
+            placeholder="Sales Executive Name"
+            className="w-full p-2 border border-gray-300 rounded-md mb-2"
+          />
+          <input
+            type="text"
+            name="number"
+            required
+            value={salesExecutive.number}
+            onChange={handleSalesExecutiveChange}
+            placeholder="Sales Executive Number"
+            className="w-full p-2 border border-gray-300 rounded-md mb-4"
+          />
+        </div>
+        <h3 className="text-xl font-semibold mb-2">Shop Information</h3>
+        <div className="mb-4">
+          <input
+            type="text"
+            name="address"
+            required
+            value={shopDetails.address}
+            onChange={handleShopDetailsChange}
+            placeholder="Shop Address"
+            className="w-full p-2 border border-gray-300 rounded-md mb-2"
+          />
+          <input
+            type="text"
+            name="ownerName"
+            required
+            value={shopDetails.ownerName}
+            onChange={handleShopDetailsChange}
+            placeholder="Shop Owner Name"
+            className="w-full p-2 border border-gray-300 rounded-md mb-2"
+          />
+          <input
+            type="text"
+            name="phoneNumber"
+            required
+            value={shopDetails.phoneNumber}
+            onChange={handleShopDetailsChange}
+            placeholder="Shop Phone Number"
+            className="w-full p-2 border border-gray-300 rounded-md mb-4"
+          />
+        </div>
+        <div className="mb-4">
+          <h3 className="text-xl font-semibold mb-2">Signature:</h3>
+          <SignatureCanvas
+            ref={signatureRef}
+            penColor="black"
+            canvasProps={{ className: "border border-gray-300 w-full h-40" }}
+            onEnd={() => setSignature(signatureRef.current.toDataURL())}
+          />
+          <button
+            type="button"
+            onClick={clearSignature}
+            className="mt-2 py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+          >
+            Clear Signature
+          </button>
+        </div>
         <button
-          onClick={clearSignature}
-          className="mt-2 py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+          type="submit"
+          className="w-full py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
         >
-          Clear Signature
+          Submit Order
         </button>
-      </div>
-      <button
-        onClick={submitOrder}
-        className="w-full py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
-      >
-        Submit Order
-      </button>
+      </form>
     </div>
   );
 };

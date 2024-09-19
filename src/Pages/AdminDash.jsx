@@ -23,17 +23,16 @@ const AdminDash = () => {
         buttons: true,
         dangerMode: true,
       });
-
       if (willDelete) {
         await deleteOrder(id);
-        refetch(); // Refresh the list after deletion
+        refetch();
         swal("Order deleted!", {
           icon: "success",
         });
       }
     } catch (error) {
-      console.error("Failed to delete order:", error);
-      swal("Error", "Failed to delete order. Please try again.", "error");
+      console.log(error);
+      swal("Error", "Failed to delete order", "error");
     }
   };
 
