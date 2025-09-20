@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-
 const all = import.meta.env;
 
 const firebaseConfig = {
